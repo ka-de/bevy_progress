@@ -162,7 +162,7 @@ pub struct HiddenProgress(pub Progress);
 ///
 /// ```rust
 /// # use bevy::prelude::*;
-/// # use iyes_progress::ProgressPlugin;
+/// # use bevy_progress::ProgressPlugin;
 /// # let mut app = App::default();
 /// # app.init_state::<MyState>();
 /// app.add_plugins((
