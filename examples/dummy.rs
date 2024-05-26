@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use bevy::prelude::*;
-use iyes_progress::{prelude::*, dummy_system_wait_frames, dummy_system_wait_millis};
+use bevy_progress::{ prelude::*, dummy_system_wait_frames, dummy_system_wait_millis };
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default, States)]
 enum AppState {
@@ -16,10 +16,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         // Add our state type
         .init_state::<AppState>()
-        .add_plugins(
-            ProgressPlugin::new(AppState::Loading)
-                .continue_to(AppState::MainMenu)
-        )
+        .add_plugins(ProgressPlugin::new(AppState::Loading).continue_to(AppState::MainMenu))
         // Our game loading screen
         // systems that implement tasks to be tracked for completion:
         .add_systems(
@@ -27,9 +24,7 @@ fn main() {
             (
                 dummy_system_wait_frames::<50>.track_progress(),
                 dummy_system_wait_millis::<500>.track_progress(),
-            )
-                .run_if(in_state(AppState::Loading)),
+            ).run_if(in_state(AppState::Loading))
         )
         .run();
 }
-

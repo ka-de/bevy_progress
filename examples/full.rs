@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use bevy::prelude::*;
-use iyes_progress::prelude::*;
+use bevy_progress::prelude::*;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default, States)]
 enum AppState {
@@ -20,9 +20,7 @@ fn main() {
         .init_state::<AppState>()
         // Add plugin for the splash screen
         .add_plugins(
-            ProgressPlugin::new(AppState::Splash)
-                .continue_to(AppState::MainMenu)
-                .track_assets(),
+            ProgressPlugin::new(AppState::Splash).continue_to(AppState::MainMenu).track_assets()
         )
         // Add plugin for our game loading screen
         .add_plugins(ProgressPlugin::new(AppState::GameLoading).continue_to(AppState::InGame))
@@ -39,8 +37,7 @@ fn main() {
                 // we can also add regular untracked systems to our loading screen,
                 // like to draw our progress bar:
                 ui_progress_bar.after(TrackedProgressSet),
-            )
-                .run_if(in_state(AppState::GameLoading)),
+            ).run_if(in_state(AppState::GameLoading))
         )
         .run();
 }
@@ -55,7 +52,7 @@ fn load_ui_assets(
     mut commands: Commands,
     ass: Res<AssetServer>,
     // we need to add our handles here, to track their loading progress:
-    mut loading: ResMut<AssetsLoading>,
+    mut loading: ResMut<AssetsLoading>
 ) {
     let ui_font = ass.load("font.ttf");
     let btn_img = ass.load("btn.png");
@@ -68,7 +65,8 @@ fn load_ui_assets(
     commands.insert_resource(MyUiAssets { ui_font, btn_img });
 }
 
-fn net_init_session(// ...
+fn net_init_session(
+    // ...
 ) -> Progress {
     if my_session_is_ready() {
         // we can convert a `bool` into a `Progress`
@@ -82,7 +80,7 @@ fn net_init_session(// ...
 
 fn world_generation(
     // ...
-    mut next_chunk_id: Local<u32>,
+    mut next_chunk_id: Local<u32>
 ) -> Progress {
     const N_CHUNKS: u32 = 16;
 
@@ -113,7 +111,7 @@ fn internal_thing(
 }
 
 fn ui_progress_bar(
-    counter: Res<ProgressCounter>,
+    counter: Res<ProgressCounter>
     // ...
 ) {
     // Get the overall loading progress
